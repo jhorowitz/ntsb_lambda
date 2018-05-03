@@ -1,0 +1,9 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "@kepler/tslint-rules"
+  ],
+  "jsRules": {},
+  "rules": {},
+  "rulesDirectory": []
+}

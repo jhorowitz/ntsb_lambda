@@ -1,0 +1,44 @@
+{
+  "name": "nodejs-lambda",
+  "version": "0.3.0-alpha.4",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "npm": "^6.0.0",
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2"
+  },
+  "scripts": {
+    "build": "package-scripts build",
+    "test": "jest",
+    "is-valid": "CI=true npm test && npm run lint && npm run build",
+    "jest-coverage": "npm run jest -- --coverage",
+    "jest": "package-scripts test --env=jsdom",
+    "postjest": "package-scripts sonar",
+    "lint-fix": "npm run lint -- --fix",
+    "lint": "tslint --project tsconfig.json",
+    "postjest-coverage": "istanbul check-coverage --statements 0 --branches 0 --functions 0 --lines 0",
+    "test-watch": "npm run jest",
+    "gen-docs": "npm run gen-docs:md && npm run gen-docs:html",
+    "gen-docs:md": "typedoc --theme markdown --out docs/md ./src",
+    "gen-docs:html": "typedoc --out docs/html ./src",
+    "docs": "open docs/html/index.html"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.3",
+    "@types/expect": "1.20.2",
+    "@types/invariant": "2.2.29",
+    "@types/jest": "21.1.6",
+    "@types/node": "8.0.54",
+    "@types/systemjs": "0.20.6",
+    "istanbul": "0.4.5",
+    "jest-junit": "3.4.0",
+    "serverless-offline": "^3.20.3",
+    "serverless-plugin-typescript": "^1.1.5",
+    "sonarqube-scanner": "2.0.2",
+    "ts-jest": "20.0.7",
+    "tslint": "5.8.0",
+    "typescript": "2.6.2"
+  }
+}
