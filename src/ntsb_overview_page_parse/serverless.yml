@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: aws-nodejs # NOTE: update this with your service name
+service: ntsb # NOTE: update this with your service name
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -23,7 +23,7 @@ provider:
 
 # you can overwrite defaults here
 #  stage: dev
-#  region: us-east-1
+  region: us-west-1
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -56,10 +56,12 @@ provider:
 
 functions:
   hello:
-    handler: handler.hello
+    handler: handler.getDocketOverviewURL
     events:
       - http:
-           path: /hello
+
+      - http:
+           path: /docket/overview_url
            method: GET
 
 #    The following are a few example events you can configure

@@ -1,30 +1,17 @@
-import fs = require('fs');
-
-const {URL} = require('url');
 import * as cheerio from "cheerio";
-
-import * as request from "request";
-
-
-const filePath = "/Users/joshua.horowitz/PycharmProjects/ntsb_scrape/cache/dms.ntsb.gov/pubdms/search/document.cfm?docID=365190&docketID=52547&mkey=83073";
-const fileContent = fs.readFileSync(filePath);
+import {URL} from 'url';
 
 
-function docketDocumentPageUrl(docketKey: number, docId: number, mkey: number): string {
+export function docketDocumentPageUrl(docketKey: number, docId: number, mkey: number): string {
     return "https://dms.ntsb.gov/pubdms/search/document.cfm?docID=" + docId + "&docketID=" + docketKey + "&mkey=" + mkey;
 }
 
-function docketOverviewPageUrl(docketKey: number): string {
+export function getOverviewPageUrl(docketKey: number): string {
     return "https://dms.ntsb.gov/pubdms/search/hitlist.cfm?StartRow=0&EndRow=1000000&docketID=" + docketKey
 }
 
-const url = docketOverviewPageUrl(56037);
-request(url, (err, res, body) => {
-    console.log(JSON.stringify(url));
-    console.log(JSON.stringify(parseDocketOverviewPage(body, 56037)));
-});
 
-function parseDocketOverviewPage(page: string | Buffer, docketKey: number) {
+export function parseOverviewPage(page: string | Buffer, docketKey: number) {
     if (docketKey && docketKey <= 0) {
         throw "non-positive docketKey";
     }
@@ -47,7 +34,7 @@ function parseDocketOverviewPage(page: string | Buffer, docketKey: number) {
 
     if (docketKey) {
         result["docket_key"] = docketKey;
-        result["docket_info_page_url"] = docketOverviewPageUrl(docketKey);
+        result["docket_info_page_url"] = getOverviewPageUrl(docketKey);
     }
 
     $("body > div:nth-child(2) > table:nth-child(4) > tbody > tr > td > table > tbody > tr.heading > td:nth-child(2) > span")
@@ -79,7 +66,7 @@ function parseDocketOverviewPage(page: string | Buffer, docketKey: number) {
     return result;
 }
 
-function parseDocketDocumentPage(page: string | Buffer, docketKey?: number, docId?: number, mkey?: number) {
+export function parseDocketDocumentPage(page: string | Buffer, docketKey?: number, docId?: number, mkey?: number) {
     if (typeof page !== 'string') {
         page = page.toString();
     }
